@@ -5,7 +5,15 @@ const router = express.Router();
 
 router.get('/', async (req, res, next) => {
   try {
-    res.json(await hobbits.find());
+    const hobbitlist = await hobbits.find();
+
+    if (!hobbitlist) {
+      return res.status(404).json({
+        message: 'Hobbit not found',
+      });
+    }
+
+    res.status(200).json(hobbitlist);
   } catch (err) {
     next(err);
   }
